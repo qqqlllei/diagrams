@@ -1,36 +1,29 @@
-mybatis 二级缓存，redis缓存
-dubbo框架使用 dubbo zk 调用交互流程
-
-springMVC springboot  springcloud 
-基于redis缓存开发
-
 springcloud 包含组件及相关组件提问
-fegin了解，其它组件基本不清楚
-dubbo不了解
-restTemplate熟练使用
-aop、filter、redis、mybatis、mysql、mysql索引创建使用、分布式锁等相关提问、http调用
-分布式部署、微服务部署相关不了解
-接口幂等性设计、mq消息可靠性设计相关提问
-spring、springcloud、mybatis等源码、项目使用解答
-redis数据类型、锁， mysql索引、分库分表等问题解答
-springCloud微服务，技术栈使用、服务熔断、降级、异常提问
-redis持久化、多线程、spring源码、bean线程安全、bean事务提问
-微服务理解， springCloud、spring问题
-mysql索引， 分库分表策略、技术实现
-redis、mybatis相关
-微服务优缺点， SpringCloud、Kafka等微服务组件，服务治理方案
-redis持久化、数据类型、缓存穿透解决方案
-Spring bean声明周期、线程安全、事务实现、分布式事务
-mysql分表实现、索引类型、B树
-spring 的aop和ioc，动态代理等
+答：openFeign，eureka，configServer，gateway,hystrix,ribbion
 
+Kafka等微服务组件
+
+mysql分表实现、索引类型、B树
 
 Eureka和zk的使用、优缺点，AP、CP、 集群问题及解决方案
-SpringCloud组件使用， 协议、Dubbo协议
+答：eureka Client端，register-注册，续约-发送心跳30s，cancel-服务下线,getRegistry-获取服务列表等方法
+    eureka server端，evict-服务剔除（自我保护时期不能剔除，剔除是均匀剔除，防止同一时间同一服务集群的服务全部过期剔除，剔除是定时任务60s执行一次）
+    如果服务端出现大量的过期剔除，该server进入自我保护模式，注册表中的数据将不再被剔除。在client端，如果想eureka注册失败，会尝试其他eureka节点
+    进行通信。sync-集群同步，为了维护server端注册表的一致，eureka server端需要同步注册表数据，同步时机-服务启动过程中，eureka server同时是一个
+    eureka-client，会从其他server节点拉取注册表信息到本地的注册表，另一个时机是server端在对本地注册表更新的时候，会将操作同步到其他节点。
+    eureka是趋于AP，可用性优先级更高。
+
+    zookeeper做注册中心，服务提供者在zk上创建临时几点，服务消费者订阅该节点，获取服务列表，如果有变动，zk通过通知机制，消费端变更服务列表。
+    zookeeper的角色有leader，follower，observer，如果leader网络不可达，那么整体的zk集群就要进入崩溃恢复阶段，该阶段的服务集群式不提供服务的，及
+    不能注册服务，下线服务。整体的一致性约束体现的更强一些。
+
+
+
 jvm内存分布，GC使用，参数优化， 方法区1.8调整
 Spring加载源码解析、事务实现机制
-ThreadLocal分析使用，内存泄漏原因及解决方案
+
 java集合，HashMap内部实现，版本变化实现，扩容插入问题
+
 分布式锁介绍及实现方式，分布式事务等
 
 redis缓存更新的方式，数据不一致解决办法？
@@ -315,5 +308,7 @@ redis有哪些方式可以解决缓存穿透问题？
 答：ReentrantLock,synchronized，当一个线程获取对象锁的时候，默认是偏向锁，如果没释放锁之前，又有一个线程来竞争锁，那么进行锁升级
     偏向锁，变成自旋锁，及cas的方式获取锁，比较耗CPU，如果自旋一定次数后，依旧没有获取到锁，则升级锁，变成重量级锁，重量级锁会把其他线程阻塞
 
-了解AQS吗？ReentrantLock是如何使用AQS对象的高低位的？分别用于存储什么？
+
 ReadWriteLock是如何利用AQS的高低位的？分别用于存储什么？
+答：aqs用state表示锁的占用状态，readWriteLock中存有两把锁，读锁和写锁
+    读锁用state的高16为表示占用状态和重入次数，写锁用低16位表示占用状态和重入次数。
