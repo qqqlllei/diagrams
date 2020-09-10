@@ -1,7 +1,14 @@
 springcloud 包含组件及相关组件提问
-答：openFeign，eureka，configServer，gateway,hystrix,ribbion
+答：openFeign，eureka，configServer，gateway,hystrix,ribbon
+   openFeign是声明式RestFul网络请求客户端，讲过一些列的解析，最后会创建RequestTemplate对象，在RequestTemplate
+   生成request过程中会调用所有RequestInterceptor对requestTemplate进行处理。调用requestInterceptor的apply方法。
+   openFeign通过Encoder将object转化为http的请求body，Decoder将响应转化为对应的object。用户可以自定义自己的实现。
 
-   openFeign是声明式RestFul网络请求客户端
+   hystrix为服务提供一种保护机制。断路器模式，一段时间内服务调用失败次数达到一定范围的时候，开起断路器，直接返回异常，
+   不再真是调用，一段时间后，半开状态，允许一部分进行真实调用，当成功比例到达一定范围的时候，就打开断路器。
+   在断路器打开时，执行fallback及为降级逻辑，减少资源消耗。hystrix一般使用线程池隔离的方式来保护系统资源。
+
+   ribbon
 
 Kafka等微服务组件
 
