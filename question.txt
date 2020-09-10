@@ -1,6 +1,8 @@
 springcloud 包含组件及相关组件提问
 答：openFeign，eureka，configServer，gateway,hystrix,ribbion
 
+   openFeign是声明式RestFul网络请求客户端
+
 Kafka等微服务组件
 
 mysql分表实现、索引类型、B树
