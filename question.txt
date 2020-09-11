@@ -8,7 +8,8 @@ springcloud 包含组件及相关组件提问
    不再真是调用，一段时间后，半开状态，允许一部分进行真实调用，当成功比例到达一定范围的时候，就打开断路器。
    在断路器打开时，执行fallback及为降级逻辑，减少资源消耗。hystrix一般使用线程池隔离的方式来保护系统资源。
 
-   ribbon
+   ribbon openFeign默认使用ribbon来做负载均衡。默认的负载均衡实现类为ZoneAwareLoadBalancer（可以配置eureka.client.availabilityZones指定zone），它是一个动态的负载均衡器
+   ，内部updateListOfServer方法定定时(30s)更新服务列表，只获取状态为UP的服务。
 
 Kafka等微服务组件
 
@@ -29,6 +30,7 @@ Eureka和zk的使用、优缺点，AP、CP、 集群问题及解决方案
 
 
 jvm内存分布，GC使用，参数优化， 方法区1.8调整
+
 Spring加载源码解析、事务实现机制
 
 java集合，HashMap内部实现，版本变化实现，扩容插入问题
