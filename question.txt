@@ -443,7 +443,6 @@ ReadWriteLock是如何利用AQS的高低位的？分别用于存储什么？
             Netty的文件传输采用了transferTo方法，它可以直接将文件缓冲区的数据发送到目标Channel，避免了传统通过循环write方式导致的内存拷贝问题。
             https://www.jianshu.com/p/a199ca28e80d
     Netty的内存池是怎么实现的？
-        https://blog.csdn.net/kuangzhanshatian/article/details/80881904
         https://www.jianshu.com/p/8d894e42b6e6
 
     Netty的对象池是怎么实现的？
