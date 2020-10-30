@@ -42,3 +42,11 @@
           volumes:
           - name: agent
             emptyDir: {}
+            
+            
+### server 参数配置
+    SW_CORE_ROLE: 
+    
+### client 参数配置
+    SW_AGENT_SAMPLE： 每 3秒采集的样本跟踪比例，如果是负数则表示 100%采集
+    SW_LOGGING_LEVEL： 日志级别
