@@ -1,3 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-svc
+  namespace: real
+  labels:
+    service: gateway-svc
+spec:
+  ports:
+    - port: 8070
+      name: server
+      targetPort: 8070
+      nodePort: 30314
+  type: NodePort
+  selector:
+    app: gateway
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,12 +31,32 @@ spec:
       labels:
         app: gateway
     spec:
+      initContainers:
+        - name: init-agent
+          image: qqlei/skywalking-agent:8.1.0
+          command:
+            - 'sh'
+            - '-c'
+            - 'set -ex;mkdir -p /skywalking/agent;cp -r /opt/skywalking/agent/* /skywalking/agent;'
+          volumeMounts:
+            - name: agent
+              mountPath: /skywalking/agent
       containers:
         - name: gateway
           image: qqlei/gateway:v1
           ports:
             - containerPort: 8070
               name: http
+          volumeMounts:
+            - name: agent
+              mountPath: /opt/skywalking/agent
           env:
+            - name: SW_AGENT_NAME
+              value: gateway-server
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "oap.skywalking:11800"
             - name: JAVA_OPTS
-              value: "-Xmx2g -Xms2g"
+              value: "-javaagent:/opt/skywalking/agent/skywalking-agent.jar -Xmx2g -Xms2g"
+      volumes:
+        - name: agent
+          emptyDir: {}
