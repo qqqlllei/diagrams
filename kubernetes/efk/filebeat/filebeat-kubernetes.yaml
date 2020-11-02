@@ -20,7 +20,7 @@ data:
       symlinks: true
     output.elasticsearch:
       hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
-
+      index: "app-%{[fileset.name]}-%{+yyyy.MM.dd}"
 ---
 apiVersion: extensions/v1beta1
 kind: DaemonSet
