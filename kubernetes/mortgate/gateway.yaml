@@ -19,10 +19,10 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: app-gateway
   namespace: real
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: gateway
@@ -42,7 +42,7 @@ spec:
             - name: agent
               mountPath: /skywalking/agent
       containers:
-        - name: gateway
+        - name: server-gateway
           image: qqlei/gateway:v1
           ports:
             - containerPort: 8070
@@ -52,7 +52,7 @@ spec:
               mountPath: /opt/skywalking/agent
           env:
             - name: SW_AGENT_NAME
-              value: gateway-server
+              value: server-gateway
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "oap.skywalking:11800"
             - name: JAVA_OPTS
