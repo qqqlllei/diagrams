@@ -32,6 +32,7 @@ data:
                 - type: docker
                   containers.ids:
                     - "${data.kubernetes.container.id}"
+                  include_lines: ['WARN','ERR']
                   fields:
                     type: middle
     output.elasticsearch:
