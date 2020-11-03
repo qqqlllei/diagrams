@@ -10,13 +10,15 @@ metadata:
 data:
   filebeat.yml: |-
     processors:
-      - add_cloud_metadata:
+    - drop_fields:
+       fields: ["beat","log","source"]
     filebeat.inputs:
     - type: log
       paths:
         - /var/log/containers/app*_server-*.log
       fields:
         type: server
+        nodeName: '${NODE_NAME}'
       symlinks: true
     output.elasticsearch:
       hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
@@ -56,10 +58,10 @@ spec:
               value: elasticsearch-data-service
             - name: ELASTICSEARCH_PORT
               value: "9200"
-            - name: ELASTIC_CLOUD_ID
-              value:
-            - name: ELASTIC_CLOUD_AUTH
-              value:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           securityContext:
             runAsUser: 0
             # If using Red Hat OpenShift uncomment this:
