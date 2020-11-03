@@ -24,12 +24,21 @@ data:
         type: server
         nodeName: '${NODE_NAME}'
       symlinks: true
+    - type: log
+      paths:
+        - /var/log/containers/elasticsearch-*.log
+        - /var/log/containers/nacos-*_nacos-*.log
+      include_lines: ['WARN','ERR']
+      fields:
+        type: middle
+        nodeName: '${NODE_NAME}'
+      symlinks: true
     output.elasticsearch:
       hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
       indices:
-        - index: "app-front-%{+yyyy.MM.dd}"
+        - index: "app-middle-%{+yyyy.MM.dd}"
           when.equals:
-            fields.type: "front"
+            fields.type: "middle"
         - index: "app-server-%{+yyyy.MM.dd}"
           when.equals:
             fields.type: "server"
