@@ -16,6 +16,10 @@ data:
     - type: log
       paths:
         - /var/log/containers/app*_server-*.log
+      multiline:
+        pattern: '^\['
+        negate:  true
+        match:   after
       fields:
         type: server
         nodeName: '${NODE_NAME}'
