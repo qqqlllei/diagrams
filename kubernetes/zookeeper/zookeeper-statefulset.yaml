@@ -24,6 +24,8 @@ spec:
   ports:
     - port: 2181
       name: client
+      nodePort: 32208
+  type: NodePort
   selector:
     app: zk
 ---
