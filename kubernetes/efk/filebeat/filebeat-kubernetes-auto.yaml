@@ -25,6 +25,15 @@ data:
                     - "${data.kubernetes.container.id}"
                   fields:
                     type: server
+            - condition:
+                regexp:
+                  kubernetes.container.name: "^elasticsearch-*"
+              config:
+                - type: docker
+                  containers.ids:
+                    - "${data.kubernetes.container.id}"
+                  fields:
+                    type: middle
     output.elasticsearch:
       hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
       indices:
