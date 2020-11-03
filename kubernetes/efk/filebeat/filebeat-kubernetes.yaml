@@ -27,7 +27,6 @@ data:
         - index: "app-server-%{+yyyy.MM.dd}"
           when.equals:
             fields.type: "server"
-
 ---
 apiVersion: extensions/v1beta1
 kind: DaemonSet
