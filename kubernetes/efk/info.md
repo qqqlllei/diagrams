@@ -1,5 +1,6 @@
-### es 批量删除index
-       curl -XDELETE http://10.33.80.32:32009/filebeat-6.8.13-*
+### es api
+       批量删除index:   curl -XDELETE http://10.33.80.32:32009/filebeat-6.8.13-*
+       查询index占用磁盘空间：curl -XGET http://10.33.80.30:32009/_cat/allocation?v
 
 ### filebeat filebeat.yml 配置
     processors:
