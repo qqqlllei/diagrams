@@ -27,7 +27,7 @@ data:
                     type: server
             - condition:
                 regexp:
-                  kubernetes.container.name: "^elasticsearch-*"
+                  kubernetes.container.name: "_middle-*"
               config:
                 - type: docker
                   containers.ids:
