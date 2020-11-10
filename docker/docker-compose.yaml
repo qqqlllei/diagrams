@@ -38,7 +38,7 @@ services:
 #      - /etc/localtime:/etc/localtime:ro
 
   zookeeper:
-    image: docker.io/wurstmeister/zookeeper
+    image: zookeeper:3.5.8
     restart: always
     container_name: zookeeper
     ports:
@@ -50,7 +50,7 @@ services:
       - /usr/docker/zookeeper/conf/zoo.cfg:/conf/zoo.cfg
       - /etc/localtime:/etc/localtime:ro
   kafka-0:
-    image: docker.io/wurstmeister/kafka
+    image: docker.io/wurstmeister/kafka:2.12-2.4.1
     container_name: kafka-0
     restart: always
     ports:
