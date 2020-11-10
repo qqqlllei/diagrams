@@ -47,7 +47,6 @@ services:
       - TZ=Asia/Shanghai
     volumes:
       - /usr/docker/zookeeper/data:/data
-      - /usr/docker/zookeeper/conf/zoo.cfg:/conf/zoo.cfg
       - /etc/localtime:/etc/localtime:ro
   kafka-0:
     image: docker.io/wurstmeister/kafka:2.12-2.4.1
