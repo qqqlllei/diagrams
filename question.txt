@@ -436,6 +436,7 @@ ReadWriteLock是如何利用AQS的高低位的？分别用于存储什么？
     Netty的线程模型是怎么样的？
         https://segmentfault.com/a/1190000015484187#articleHeader2
 
+
     Netty的零拷贝提体现在哪里，与操作系统上的有什么区别？
         Zero-copy就是在操作数据时, 不需要将数据buffer从一个内存区域拷贝到另一个内存区域。 少了一次内存的拷贝,CPU的效率就得到的提升。在OS层面上的Zero-copy 通常指避免在 用户态(User-space) 与 内核态(Kernel-space)之间来回拷贝数据。Netty的Zero-copy完全是在用户态(Java 层面)的, 更多的偏向于优化数据操作。
             Netty的接收和发送ByteBuffer采用DIRECT BUFFERS，使用堆外直接内存进行Socket读写，不需要进行字节缓冲区的二次拷贝。如果使用传统的堆内存（HEAP BUFFERS）进行Socket读写，JVM会将堆内存Buffer拷贝一份到直接内存中，然后才写入Socket中。相比于堆外直接内存，消息在发送过程中多了一次缓冲区的内存拷贝。
