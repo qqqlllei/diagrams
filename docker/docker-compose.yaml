@@ -1,42 +1,5 @@
 version: '3.3'
 services:
-#  mysql:
-#    image: mysql/mysql-server:5.7
-#    container_name: mysql
-#    ports:
-#      - "3306:3306"
-#    volumes:
-#      - /usr/docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-#      - /usr/docker/mysql/initdb:/docker-entrypoint-initdb.d
-#      - /usr/docker/mysql/data:/var/lib/mysql
-#      - /etc/localtime:/etc/localtime:ro
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=123456
-#      - TZ=Asia/Shanghai
-#    restart: always
-#  redis:
-#    image: 10.0.8.189/library/redis:5.0.3
-#    container_name: redis
-#    ports:
-#      - "6379:6379"
-#    restart: always
-#    command: redis-server
-#    volumes:
-#      - /usr/docker/redis/data:/data
-#    environment:
-#      - TZ=Asia/Shanghai
-
-#  redisManage:
-#    image: 10.0.8.189/library/phpredisadmin:latest
-#    container_name: redisManage
-#    ports:
-#      - "9001:80"
-#    environment:
-#      - REDIS_1_HOST=${IP}
-#      - REDIS_1_NAME=redis
-#    volumes:
-#      - /etc/localtime:/etc/localtime:ro
-
   zookeeper:
     image: zookeeper:3.5.8
     restart: always
@@ -65,7 +28,7 @@ services:
       - /home/kafka-0/logs:/opt/kafka/logs
       - /etc/localtime:/etc/localtime:ro
   kafka-1:
-    image: docker.io/wurstmeister/kafka
+    image: docker.io/wurstmeister/kafka:2.12-2.4.1
     container_name: kafka-1
     restart: always
     ports:
@@ -81,7 +44,7 @@ services:
       - /home/kafka-1/logs:/opt/kafka/logs
       - /etc/localtime:/etc/localtime:ro
   kafka-2:
-    image: docker.io/wurstmeister/kafka
+    image: docker.io/wurstmeister/kafka:2.12-2.4.1
     container_name: kafka-2
     restart: always
     ports:
