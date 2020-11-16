@@ -21,10 +21,11 @@ services:
       - KAFKA_ADVERTISED_HOST_NAME=10.33.80.102
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_BROKER_ID=0
+      - KAFKA_LOG_DIRS=/kafka/kafka-logs
       - TZ=Asia/Shanghai
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /home/kafka-0/data:/kafka/
+      - /home/kafka-0/data/kafka-logs:/kafka/kafka-logs
       - /home/kafka-0/logs:/opt/kafka/logs
       - /etc/localtime:/etc/localtime:ro
   kafka-1:
@@ -37,10 +38,11 @@ services:
       - KAFKA_ADVERTISED_HOST_NAME=10.33.80.102
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_BROKER_ID=1
+      - KAFKA_LOG_DIRS=/kafka/kafka-logs
       - TZ=Asia/Shanghai
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /home/kafka-1/data:/kafka/
+      - /home/kafka-1/data/kafka-logs:/kafka/kafka-logs
       - /home/kafka-1/logs:/opt/kafka/logs
       - /etc/localtime:/etc/localtime:ro
   kafka-2:
@@ -53,10 +55,11 @@ services:
       - KAFKA_ADVERTISED_HOST_NAME=10.33.80.102
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_BROKER_ID=2
+      - KAFKA_LOG_DIRS=/kafka/kafka-logs
       - TZ=Asia/Shanghai
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /home/kafka-2/data:/kafka/
+      - /home/kafka-2/data/kafka-logs:/kafka/kafka-logs
       - /home/kafka-2/logs:/opt/kafka/logs
       - /etc/localtime:/etc/localtime:ro
   kafkaManage:
