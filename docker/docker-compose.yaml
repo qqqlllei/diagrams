@@ -74,5 +74,16 @@ services:
     command: -Dpidfile.path=/dev/null
     volumes:
       - /etc/localtime:/etc/localtime:ro
-
-
+      -
+  mortgageApi:
+    images: docker.io/sheepkiller/mortgageApi:updateServer
+    container_name: kafkaManage
+    restart: always
+    ports:
+      - "8083:8083"
+    environment:
+      - ZK_HOSTS=zookeeper:2181
+      - APPLICATION_SECRET=123456
+    command: -Dpidfile.path=/dev/null
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
