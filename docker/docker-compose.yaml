@@ -9,7 +9,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     volumes:
-      - /usr/docker/zookeeper/data:/data
+      - /home/zookeeper/data:/data
       - /etc/localtime:/etc/localtime:ro
   kafka-0:
     image: docker.io/wurstmeister/kafka:2.12-2.4.1
