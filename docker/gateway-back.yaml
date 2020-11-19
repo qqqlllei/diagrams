@@ -55,6 +55,7 @@ services:
     ports:
       - "8761:8761"
     environment:
+      - JAVA_OPTS=-Xms512m -Xmx512m
       - SPRING_PROFILES_ACTIVE=cli
       - EUREKA_INSTANCE_HOSTNAME=10.33.80.102
     volumes:
@@ -66,6 +67,7 @@ services:
     ports:
       - "8083:8083"
     environment:
+      - JAVA_OPTS=-Xms512m -Xmx512m
       - SPRING_PROFILES_ACTIVE=cli
       - EUREKA_INSTANCE_INSTANCE-ID=customer-api
       - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://eureka:8761/eureka
@@ -85,6 +87,7 @@ services:
     ports:
       - "8086:8086"
     environment:
+      - JAVA_OPTS=-Xms512m -Xmx512m
       - SPRING_PROFILES_ACTIVE=cli
       - EUREKA_INSTANCE_INSTANCE-ID=employee-api
       - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://eureka:8761/eureka
@@ -105,6 +108,7 @@ services:
     ports:
       - "8085:8085"
     environment:
+      - JAVA_OPTS=-Xms512m -Xmx512m
       - SPRING_PROFILES_ACTIVE=cli
       - EUREKA_INSTANCE_INSTANCE-ID=guardianship-api
       - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://eureka:8761/eureka
@@ -124,6 +128,7 @@ services:
     ports:
       - "8762:8762"
     environment:
+      - JAVA_OPTS=-Xms512m -Xmx512m
       - SPRING_PROFILES_ACTIVE=cli
       - EUREKA_INSTANCE_INSTANCE-ID=schedule-server
       - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://eureka:8761/eureka
@@ -143,6 +148,7 @@ services:
     ports:
       - "8087:8087"
     environment:
+      - JAVA_OPTS=-Xms512m -Xmx512m
       - SPRING_PROFILES_ACTIVE=cli
       - SOCKETIO_SERVER_ORIGIN=http://10.33.80.102
       - SPRING_REDIS_HOST=10.33.80.102
@@ -156,10 +162,31 @@ services:
     image: center
     container_name: center-server
     ports:
-      - "8087:8087"
+      - "8082:8082"
     environment:
+      - JAVA_OPTS=-Xms512m -Xmx512m
       - SPRING_PROFILES_ACTIVE=cli
       - EUREKA_INSTANCE_INSTANCE-ID=center-server
+      - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://eureka:8761/eureka
+      - SHARDING_JDBC_DATASOURCE_DS0_URL=jdbc:mysql://10.33.80.102:3306/pk2?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      - SHARDING_JDBC_DATASOURCE_DS0_USERNAME=root
+      - SHARDING_JDBC_DATASOURCE_DS0_PASSWORD=123456
+      - SPRING_REDIS_HOST=10.33.80.102
+      - SPRING_RABBITMQ_HOST=10.33.80.102
+      - SPRING_RABBITMQ_USERNAME=root
+      - SPRING_RABBITMQ_PASSWORD=123456
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+  admin-api:
+    image: admin-api
+    container_name: admin-api
+    ports:
+      - "8081:8081"
+    environment:
+      - JAVA_OPTS=-Xms512m -Xmx512m
+      - SPRING_PROFILES_ACTIVE=cli
+      - EUREKA_INSTANCE_INSTANCE-ID=admin-api
       - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://eureka:8761/eureka
       - SHARDING_JDBC_DATASOURCE_DS0_URL=jdbc:mysql://10.33.80.102:3306/pk2?useUnicode=true&characterEncoding=UTF-8&useSSL=false
       - SHARDING_JDBC_DATASOURCE_DS0_USERNAME=root
