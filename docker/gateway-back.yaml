@@ -197,3 +197,12 @@ services:
       - SPRING_RABBITMQ_PASSWORD=123456
     volumes:
       - /etc/localtime:/etc/localtime:ro
+
+  admin-web:
+    image: admin-web
+    container_name: admin-web
+    ports:
+      - "9090:9090"
+    volumes:
+      - /home/service/admin-web/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - /etc/localtime:/etc/localtime:ro
