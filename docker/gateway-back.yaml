@@ -147,6 +147,7 @@ services:
     container_name: web-socket
     ports:
       - "8087:8087"
+      - "9999:9999"
     environment:
       - JAVA_OPTS=-Xms512m -Xmx512m
       - SPRING_PROFILES_ACTIVE=cli
@@ -202,7 +203,16 @@ services:
     image: admin-web
     container_name: admin-web
     ports:
-      - "9090:9090"
+      - "9090:80"
     volumes:
       - /home/service/admin-web/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - /etc/localtime:/etc/localtime:ro
+
+  monitor-web:
+    image: monitor-web
+    container_name: monitor-web
+    ports:
+      - "9091:80"
+    volumes:
+      - /home/service/monitor-web/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - /etc/localtime:/etc/localtime:ro
