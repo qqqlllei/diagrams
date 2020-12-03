@@ -1,5 +1,5 @@
 ### es api
-       批量删除index:   curl -XDELETE http://10.33.80.32:32009/filebeat-6.8.13-*
+       批量删除index:   curl -XDELETE http://10.33.80.32:32009/app-server-*
        查询index占用磁盘空间：curl -XGET http://10.33.80.30:32009/_cat/allocation?v
 
 ### filebeat filebeat.yml 配置
@@ -23,3 +23,6 @@
         - index: "app-server-%{+yyyy.MM.dd}"
           when.equals:
             fields.type: "server" # 根据自定义字段，创建不同的index
+            
+### filebeat 官方文档
+    https://www.elastic.co/guide/en/beats/filebeat/6.8/index.html

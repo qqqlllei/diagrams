@@ -6,6 +6,8 @@
     
 ### 构建镜像
     docker build -t name:version .
+    docker save -o nginx.tar nginx:latest
+    docker load -i nginx.tar
 
 ### 查看日志
     docker logs -f -t --tail 1000 datacenter
