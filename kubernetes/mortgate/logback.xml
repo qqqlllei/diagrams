@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT_C" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%level]|%d^|^%contextName^|^%X{sessionId}^|^%X{requestId}^|^%c{1.}^|^%t^|^%m%n</pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="STDOUT_C"/>
+    </root>
+</configuration>

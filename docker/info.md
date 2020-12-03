@@ -12,4 +12,8 @@
 ### 查看日志
     docker logs -f -t --tail 1000 datacenter
     
+### 删除指定前缀的docker image
+    # 删除以none为前缀的镜像
+    docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
+    
     
