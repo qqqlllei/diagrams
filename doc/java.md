@@ -10,15 +10,15 @@
             dog.say();
             YingDuan yingDuan = new YingDuan();
             Cat cat = (Cat) logProxyFactory.newInstance(yingDuan);
-            cat.say();
+            cat.sayCat();
         }
     }
-    interface Cat{ void say();} // 需要定义接口
+    interface Cat{ void sayCat();} // 需要定义接口
     interface Dog{ void say();} 
     
     class YingDuan implements Cat{
         @Override
-        public void say() {
+        public void sayCat() {
             System.out.println("YingDuan");
         }
     }
