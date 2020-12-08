@@ -14,3 +14,5 @@
     11：BeanPostProcessor.postProcessAfterInitialization -->bean 初始化之后调用
     12: 容器销毁 DisposableBean.destory --> bean配置的destroy-method
     
+    
+### spring aop
