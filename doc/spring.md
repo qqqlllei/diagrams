@@ -16,3 +16,15 @@
     
     
 ### spring aop
+    通知类型
+        @Aroud @Before  @After @AfterReturning @AfterThrowing
+    执行顺序
+        1:@Aroud(before)-->@Before--> @Aroud(after)--> @After--> @AfterReturning
+        2:@Aroud(before)-->@Before--> @Aroud(after)--> @After--> @AfterThrowing
+    基于动态代理的方式实现aop功能，方式有两种
+    1：jdk proxy 被代理对象实现了接口
+    2: cglib 被代理对象没有实现接口
+    AbstractAutoProxyCreator.postProcessBeforeInstantiation --->对象实例化之前调用逻辑，根据用户自定义TargetSource对象返回一个proxy对象，可以对非spring容器管理对象使用aop功能
+    AbstractAutoProxyCreator.postProcessAfterInitialization --->对象初始化后创建代理对象
+    
+    
