@@ -6,7 +6,7 @@
         public static void main(String[] args) {
             CaiQuan caiQuan = new CaiQuan(); // 被代理对象
             LogProxyFactory logProxyFactory = new LogProxyFactory();
-            Dog dog = (Dog) logProxyFactory.newInstance(caiQuan); // 生成proxy
+            Dog dog = (Dog) logProxyFactory.newInstance(caiQuan); // 生成proxy,target需要传递给InvocationHandler,在执行invoke的时候是目标对象的目标方法。
             dog.say();
             YingDuan yingDuan = new YingDuan();
             Cat cat = (Cat) logProxyFactory.newInstance(yingDuan);
@@ -34,7 +34,7 @@
                    target.getClass().getInterfaces(),
                    (proxy, method, args) -> {  // 实现InvocationHandler的内部类
                        System.out.println("begin"); // 前置增强
-                       Object obj = method.invoke(target,args); // 执行目标方法
+                       Object obj = method.invoke(target,args); // 执行目标对象的目标方法
                        System.out.println("end");  // 后置增强
                        return obj;
                    });
