@@ -8,6 +8,9 @@
     jstat -gcutil 进程id 输出间隔时间
 
 ### jmap 生产堆快照
+    jmap -histo 1953 | head -20
 
-
+#### cup 高
+    top -Hp pid 
+    查看该进程下所有线程
 
