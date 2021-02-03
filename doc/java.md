@@ -131,3 +131,58 @@
 #### cglib
 #### aspecctj
 #### instrumentation
+
+
+
+
+## 锁
+### synchronized  如果锁对象是相同的，不论是否是相同方法，都会串行执行
+#### 静态方法
+        new Thread(()-> staticA()).start();
+        new Thread(()-> staticB()).start();
+        private static synchronized void staticB() {
+            System.out.println("====b begin====");
+            try {
+                Thread.sleep(5000l);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("====b end====");
+        }
+        private static synchronized void staticA() {
+            System.out.println("====a begin====");
+            try {
+                Thread.sleep(5000l);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("====a end====");
+        }
+        方法a b 顺序执行
+
+#### 实例方法
+        SynchronizedDemo synchronizedDemo = new SynchronizedDemo();
+        new Thread(()-> synchronizedDemo.staticA()).start();
+        new Thread(()-> synchronizedDemo.staticB()).start();
+        private static synchronized void staticB() {
+            System.out.println("====b begin====");
+            try {
+                Thread.sleep(5000l);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("====b end====");
+        }
+        private static synchronized void staticA() {
+            System.out.println("====a begin====");
+            try {
+                Thread.sleep(5000l);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("====a end====");
+        }
+        方法a b 顺序执行
+        
+#### 静态代码块同静态方法
+
