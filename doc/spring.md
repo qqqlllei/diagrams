@@ -28,3 +28,15 @@
     AbstractAutoProxyCreator.postProcessAfterInitialization --->对象初始化后创建代理对象
     
     
+    
+### 循环依赖
+    三级缓存
+        一级： singletonObjects
+        二级： earlySingletonObjects
+        三级： singletonFactories
+    创建时机：
+        实例化对象后，添加objectFacoty  到三级缓存。
+        发生循环依赖，从二级缓存获取，获取不到，从三级缓存获取，如果获取到调用getObject方法，如果是需要aop的对象，进行aop，返回代理对象或原始对象，存入二级缓存。
+        删除三级缓存中的对象。即二级缓存，三级缓存时互斥的。
+        初始化完成的bean存入一级缓存，删除二三级缓存的bean
+                
