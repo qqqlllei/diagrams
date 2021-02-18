@@ -1,0 +1,211 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-auth
+  namespace: real
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      initContainers:
+        - name: init-agent
+          image: qqlei/skywalking-agent:8.1.0
+          command:
+            - 'sh'
+            - '-c'
+            - 'set -ex;mkdir -p /skywalking/agent;cp -r /opt/skywalking/agent/* /skywalking/agent;'
+          volumeMounts:
+            - name: agent
+              mountPath: /skywalking/agent
+      containers:
+        - name: server-auth
+          image: qqlei/auth:v1
+          ports:
+            - containerPort: 7072
+              name: http
+          volumeMounts:
+            - name: agent
+              mountPath: /opt/skywalking/agent
+          env:
+            - name: SW_AGENT_NAME
+              value: server-auth
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "oap.skywalking:11800"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_SERVER-ADDR
+              value: "nacos-read.default:8848"
+            - name: SPRING_CLOUD_NACOS_CONFIG_SERVER-ADDR
+              value: "nacos-read.default:8848"
+            - name: JAVA_OPTS
+              value: "-javaagent:/opt/skywalking/agent/skywalking-agent.jar -Xmx512m -Xms512m"
+      volumes:
+        - name: agent
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-back-svc
+  namespace: real
+  labels:
+    service: user-back-svc
+spec:
+  ports:
+    - port: 80
+      name: server
+      targetPort: 9085
+      nodePort: 30316
+  type: NodePort
+  selector:
+    app: user
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-user
+  namespace: real
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      initContainers:
+        - name: init-agent
+          image: qqlei/skywalking-agent:8.1.0
+          command:
+            - 'sh'
+            - '-c'
+            - 'set -ex;mkdir -p /skywalking/agent;cp -r /opt/skywalking/agent/* /skywalking/agent;'
+          volumeMounts:
+            - name: agent
+              mountPath: /skywalking/agent
+      containers:
+        - name: server-user
+          image: qqlei/user:v1
+          ports:
+            - containerPort: 9085
+              name: http
+          volumeMounts:
+            - name: agent
+              mountPath: /opt/skywalking/agent
+          env:
+            - name: SW_AGENT_NAME
+              value: server-user
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "oap.skywalking:11800"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_SERVER-ADDR
+              value: "nacos-read.default:8848"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE
+              value: "real"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_USERNAME
+              value: "nacos"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_PASSWORD
+              value: "nacos"
+            - name: JAVA_OPTS
+              value: "-javaagent:/opt/skywalking/agent/skywalking-agent.jar -Xmx512m -Xms512m"
+      volumes:
+        - name: agent
+          emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-basic
+  namespace: real
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: basic
+  template:
+    metadata:
+      labels:
+        app: basic
+    spec:
+      initContainers:
+        - name: init-agent
+          image: qqlei/skywalking-agent:8.1.0
+          command:
+            - 'sh'
+            - '-c'
+            - 'set -ex;mkdir -p /skywalking/agent;cp -r /opt/skywalking/agent/* /skywalking/agent;'
+          volumeMounts:
+            - name: agent
+              mountPath: /skywalking/agent
+      containers:
+        - name: server-basic
+          image: qqlei/basic:v1
+          ports:
+            - containerPort: 8082
+              name: http
+          volumeMounts:
+            - name: agent
+              mountPath: /opt/skywalking/agent
+          env:
+            - name: SW_AGENT_NAME
+              value: server-basic
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "oap.skywalking:11800"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_SERVER-ADDR
+              value: "nacos-read.default:8848"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE
+              value: "real"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_USERNAME
+              value: "nacos"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_PASSWORD
+              value: "nacos"
+            - name: JAVA_OPTS
+              value: "-javaagent:/opt/skywalking/agent/skywalking-agent.jar -Xmx512m -Xms512m"
+      volumes:
+        - name: agent
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-web-svc
+  namespace: real
+  labels:
+    service: user-web-svc
+spec:
+  ports:
+    - port: 80
+      name: server
+      targetPort: 80
+      nodePort: 30315
+  type: NodePort
+  selector:
+    app: user-web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-user-web
+  namespace: real
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: user-web
+  template:
+    metadata:
+      labels:
+        app: user-web
+    spec:
+      containers:
+        - name: server-user-web
+          image: qqlei/user-web:v1
+          ports:
+            - containerPort: 80
+              name: http

@@ -50,13 +50,26 @@ spec:
           volumeMounts:
             - name: agent
               mountPath: /opt/skywalking/agent
+            - name: date-config
+              mountPath: /etc/localtime
           env:
             - name: SW_AGENT_NAME
               value: server-gateway
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "oap.skywalking:11800"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_SERVER-ADDR
+              value: "nacos-read.default:8848"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE
+              value: "real"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_USERNAME
+              value: "nacos"
+            - name: SPRING_CLOUD_NACOS_DISCOVERY_PASSWORD
+              value: "nacos"
             - name: JAVA_OPTS
               value: "-javaagent:/opt/skywalking/agent/skywalking-agent.jar -Xmx2g -Xms2g"
       volumes:
         - name: agent
           emptyDir: {}
+        - name: date-config
+          hostPath:
+            path: /etc/localtime

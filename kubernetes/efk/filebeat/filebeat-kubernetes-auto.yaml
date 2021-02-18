@@ -10,17 +10,42 @@ metadata:
 data:
   filebeat.yml: |-
     processors:
-      - add_cloud_metadata:
-    filebeat.modules:
-    - module: system
-    filebeat.inputs:
-    - type: log
-      paths:
-        - /var/log/containers/app-*.log
-      symlinks: true
+    - drop_fields:
+       fields: ["beat","log","source","host","input"]
+    filebeat.autodiscover:
+      providers:
+        - type: kubernetes
+          templates:
+            - condition:
+                regexp:
+                  kubernetes.container.name: "^server-*"
+              config:
+                - type: docker
+                  containers.ids:
+                    - "${data.kubernetes.container.id}"
+                  multiline.pattern: '^\['
+                  multiline.negate: true
+                  multiline.match: after
+                  fields:
+                    type: server
+            - condition:
+                regexp:
+                  kubernetes.container.name: "_middle-*"
+              config:
+                - type: docker
+                  containers.ids:
+                    - "${data.kubernetes.container.id}"
+                  fields:
+                    type: middle
     output.elasticsearch:
       hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
-      index: "app-%{[fileset.name]}-%{+yyyy.MM.dd}"
+      indices:
+        - index: "app-middle-%{+yyyy.MM.dd}"
+          when.equals:
+            fields.type: "middle"
+        - index: "app-server-%{+yyyy.MM.dd}"
+          when.equals:
+            fields.type: "server"
 ---
 apiVersion: extensions/v1beta1
 kind: DaemonSet
@@ -50,10 +75,10 @@ spec:
               value: elasticsearch-data-service
             - name: ELASTICSEARCH_PORT
               value: "9200"
-            - name: ELASTIC_CLOUD_ID
-              value:
-            - name: ELASTIC_CLOUD_AUTH
-              value:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           securityContext:
             runAsUser: 0
             # If using Red Hat OpenShift uncomment this:
@@ -69,6 +94,9 @@ spec:
               mountPath: /etc/filebeat.yml
               readOnly: true
               subPath: filebeat.yml
+            - name: inputs
+              mountPath: /usr/share/filebeat/inputs.d
+              readOnly: true
             - name: data
               mountPath: /usr/share/filebeat/data
             - name: varlibdockercontainers

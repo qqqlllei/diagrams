@@ -1,0 +1,76 @@
+version: '3.3'
+services:
+  zookeeper:
+    image: zookeeper:3.5.8
+    restart: always
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /home/zookeeper/data:/data
+      - /etc/localtime:/etc/localtime:ro
+  kafka-0:
+    image: docker.io/wurstmeister/kafka:2.12-2.4.1
+    container_name: kafka-0
+    restart: always
+    ports:
+      - "9090:9092"
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=10.33.80.102
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_BROKER_ID=0
+      - KAFKA_LOG_DIRS=/kafka/kafka-logs
+      - TZ=Asia/Shanghai
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/kafka-0/data/kafka-logs:/kafka/kafka-logs
+      - /home/kafka-0/logs:/opt/kafka/logs
+      - /etc/localtime:/etc/localtime:ro
+  kafka-1:
+    image: docker.io/wurstmeister/kafka:2.12-2.4.1
+    container_name: kafka-1
+    restart: always
+    ports:
+      - "9091:9092"
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=10.33.80.102
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LOG_DIRS=/kafka/kafka-logs
+      - TZ=Asia/Shanghai
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/kafka-1/data/kafka-logs:/kafka/kafka-logs
+      - /home/kafka-1/logs:/opt/kafka/logs
+      - /etc/localtime:/etc/localtime:ro
+  kafka-2:
+    image: docker.io/wurstmeister/kafka:2.12-2.4.1
+    container_name: kafka-2
+    restart: always
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=10.33.80.102
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_BROKER_ID=2
+      - KAFKA_LOG_DIRS=/kafka/kafka-logs
+      - TZ=Asia/Shanghai
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/kafka-2/data/kafka-logs:/kafka/kafka-logs
+      - /home/kafka-2/logs:/opt/kafka/logs
+      - /etc/localtime:/etc/localtime:ro
+  kafkaManage:
+    image: docker.io/sheepkiller/kafka-manager
+    container_name: kafkaManage
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      - ZK_HOSTS=zookeeper:2181
+      - APPLICATION_SECRET=123456
+    command: -Dpidfile.path=/dev/null
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
