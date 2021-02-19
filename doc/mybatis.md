@@ -32,6 +32,13 @@
     
 ### Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？
     支持延迟加载
+     <settings>
+         <!--开启延迟加载-->
+         <setting name="lazyLoadingEnabled" value="true"/>
+         <!--关闭积极加载 当设置为‘true’的时候，懒加载的对象可能被任何懒属性全部加载。否则，每个属性都按需加载。默认为true-->
+         <setting name="aggressiveLazyLoading" value="false"/>
+     </settings>
+     
     <mapper namespace="cn.xh.dao.UserDao">
         <select id="findCategoryWithLazingload" resultMap="categoryMap">
             select * from category
