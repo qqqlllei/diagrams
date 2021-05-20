@@ -95,3 +95,10 @@
     xml绑定 映射文件的namespace必须和接口的全路径名保持一致
     
 
+### 插入返回主键
+        <insert id="insertModModeDateReturnId" useGeneratedKeys="true" keyProperty="id" parameterType="com.demo.dao.entity.Demo">
+        insert into demo (name, age,cDate, cUser, mDate,mUser, pId)
+        values (#{name,jdbcType=BIGINT}, #{age,jdbcType=BIGINT},
+                #{cDate,jdbcType=TIMESTAMP}, #{cUser,jdbcType=VARCHAR}, #{mDate,jdbcType=TIMESTAMP},
+                #{mUser,jdbcType=VARCHAR}, #{pId,jdbcType=BIGINT})
+        </insert>
